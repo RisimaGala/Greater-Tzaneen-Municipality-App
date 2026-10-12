@@ -51,6 +51,16 @@ namespace Greater_Tzaneen_Municipality_App
             this.Show();
         }
 
+        private void btnLocalEvents_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (var eventsForm = new LocalEventsForm())
+            {
+                eventsForm.ShowDialog();
+            }
+            this.Show();
+        }
+
         private void panelHills_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;

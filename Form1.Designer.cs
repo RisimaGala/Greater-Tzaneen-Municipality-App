@@ -125,20 +125,21 @@ namespace Greater_Tzaneen_Municipality_App
             //
             // btnLocalEvents
             //
-            this.btnLocalEvents.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnLocalEvents.BackColor = System.Drawing.Color.FromArgb(20, 90, 50);
             this.btnLocalEvents.FlatAppearance.BorderSize = 0;
             this.btnLocalEvents.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLocalEvents.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnLocalEvents.ForeColor = System.Drawing.Color.DimGray;
+            this.btnLocalEvents.ForeColor = System.Drawing.Color.White;
             this.btnLocalEvents.Location = new System.Drawing.Point(55, 340);
             this.btnLocalEvents.Name = "btnLocalEvents";
             this.btnLocalEvents.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnLocalEvents.Size = new System.Drawing.Size(650, 80);
             this.btnLocalEvents.TabIndex = 7;
-            this.btnLocalEvents.Text = "2. Local Events and Announcements\r\n(Coming Soon)";
+            this.btnLocalEvents.Text = "2. Local Events and Announcements\r\nBrowse upcoming events and announcements.";
             this.btnLocalEvents.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLocalEvents.UseVisualStyleBackColor = false;
-            this.btnLocalEvents.Enabled = false;
+            this.btnLocalEvents.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLocalEvents.Click += new System.EventHandler(this.btnLocalEvents_Click);
             //
             // btnServiceStatus
             //

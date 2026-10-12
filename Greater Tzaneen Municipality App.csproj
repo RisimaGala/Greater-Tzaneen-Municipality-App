@@ -58,6 +58,16 @@
     <Compile Include="ReportIssuesForm.Designer.cs">
       <DependentUpon>ReportIssuesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LocalEventsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LocalEventsForm.Designer.cs">
+      <DependentUpon>LocalEventsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EventItem.cs" />
+    <Compile Include="EventCatalog.cs" />
+    <Compile Include="BinaryHeapPriorityQueue.cs" />
+    <Compile Include="SearchRecommendationEngine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -65,6 +75,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReportIssuesForm.resx">
       <DependentUpon>ReportIssuesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocalEventsForm.resx">
+      <DependentUpon>LocalEventsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\logo.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
