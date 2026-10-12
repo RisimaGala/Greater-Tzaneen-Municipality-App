@@ -116,11 +116,14 @@ namespace Greater_Tzaneen_Municipality_App
             RenderEventResults(catalog.GetAllEventsChronological(), "Upcoming Events");
         }
 
-        private void chkAnyDate_CheckedChanged(object sender, EventArgs e)
+        private void dtpFrom_ValueChanged(object sender, EventArgs e)
         {
-            bool enableRange = !chkAnyDate.Checked;
-            dtpFrom.Enabled = enableRange;
-            dtpTo.Enabled = enableRange;
+            chkAnyDate.Checked = false;
+        }
+
+        private void dtpTo_ValueChanged(object sender, EventArgs e)
+        {
+            chkAnyDate.Checked = false;
         }
 
         private void btnBack_Click(object sender, EventArgs e)

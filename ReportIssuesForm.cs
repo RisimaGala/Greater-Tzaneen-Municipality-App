@@ -74,7 +74,7 @@ namespace Greater_Tzaneen_Municipality_App
                 lblFileName.ForeColor = Color.Black;
             }
         }
-
+   
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             var errors = new System.Collections.Generic.List<string>();

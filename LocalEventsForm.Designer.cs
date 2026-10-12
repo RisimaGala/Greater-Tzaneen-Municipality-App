@@ -167,7 +167,6 @@ namespace Greater_Tzaneen_Municipality_App
             this.chkAnyDate.TabIndex = 4;
             this.chkAnyDate.Text = "Any date";
             this.chkAnyDate.UseVisualStyleBackColor = true;
-            this.chkAnyDate.CheckedChanged += new System.EventHandler(this.chkAnyDate_CheckedChanged);
             //
             // labelFrom
             //
@@ -181,13 +180,13 @@ namespace Greater_Tzaneen_Municipality_App
             //
             // dtpFrom
             //
-            this.dtpFrom.Enabled = false;
             this.dtpFrom.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFrom.Margin = new System.Windows.Forms.Padding(2, 7, 10, 5);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(110, 25);
             this.dtpFrom.TabIndex = 6;
+            this.dtpFrom.ValueChanged += new System.EventHandler(this.dtpFrom_ValueChanged);
             //
             // labelTo
             //
@@ -201,13 +200,13 @@ namespace Greater_Tzaneen_Municipality_App
             //
             // dtpTo
             //
-            this.dtpTo.Enabled = false;
             this.dtpTo.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpTo.Margin = new System.Windows.Forms.Padding(2, 7, 15, 5);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(110, 25);
             this.dtpTo.TabIndex = 8;
+            this.dtpTo.ValueChanged += new System.EventHandler(this.dtpTo_ValueChanged);
             //
             // btnSearch
             //
