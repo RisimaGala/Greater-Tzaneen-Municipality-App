@@ -15,12 +15,23 @@ namespace Greater_Tzaneen_Municipality_App
     }
 
     /// <summary>
+    /// One past search, kept so it can be shown as a "recent search" tag and replayed
+    /// exactly (including the category that was active when the search ran).
+    /// </summary>
+    public class RecentSearchEntry
+    {
+        public string Keyword { get; set; }
+        public string Category { get; set; }
+        public string DisplayLabel { get; set; }
+    }
+
+    /// <summary>
     /// Learns from what the user searches for and recommends related events.
     ///
     /// Search patterns are tracked with:
     ///  - Dictionary&lt;string, int&gt; -> frequency of each category the user has searched/filtered by.
     ///  - Dictionary&lt;string, int&gt; -> frequency of each keyword the user has typed.
-    ///  - Queue&lt;string&gt;          -> a bounded, FIFO history of recent search terms ("recent searches").
+    ///  - Queue&lt;RecentSearchEntry&gt; -> a bounded, FIFO history of recent searches ("recent searches").
     ///
     /// Recommendations are produced by scoring every event against those patterns and
     /// using the same BinaryHeapPriorityQueue data structure as the urgent-events feature
@@ -36,25 +47,44 @@ namespace Greater_Tzaneen_Municipality_App
         private readonly Dictionary<string, int> keywordFrequency =
             new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
-        private readonly Queue<string> recentSearches = new Queue<string>();
+        private readonly Queue<RecentSearchEntry> recentSearches = new Queue<RecentSearchEntry>();
 
         public void RecordSearch(string keyword, string category)
         {
-            if (!string.IsNullOrWhiteSpace(category) && category != EventCatalog.AllCategoriesLabel)
+            string trimmedKeyword = (keyword ?? string.Empty).Trim();
+            bool hasCategory = !string.IsNullOrWhiteSpace(category) && category != EventCatalog.AllCategoriesLabel;
+
+            if (hasCategory)
             {
                 Increment(categoryFrequency, category);
             }
 
-            if (!string.IsNullOrWhiteSpace(keyword))
+            if (trimmedKeyword.Length > 0)
             {
-                string trimmed = keyword.Trim();
-                Increment(keywordFrequency, trimmed);
+                Increment(keywordFrequency, trimmedKeyword);
+            }
 
-                recentSearches.Enqueue(trimmed);
-                while (recentSearches.Count > MaxSearchHistory)
-                {
-                    recentSearches.Dequeue();
-                }
+            // A search with neither a keyword nor a specific category is just
+            // "show everything" and is not worth remembering as a recent search.
+            if (trimmedKeyword.Length == 0 && !hasCategory)
+            {
+                return;
+            }
+
+            string displayLabel = trimmedKeyword.Length > 0
+                ? trimmedKeyword
+                : category;
+
+            recentSearches.Enqueue(new RecentSearchEntry
+            {
+                Keyword = trimmedKeyword,
+                Category = hasCategory ? category : EventCatalog.AllCategoriesLabel,
+                DisplayLabel = displayLabel
+            });
+
+            while (recentSearches.Count > MaxSearchHistory)
+            {
+                recentSearches.Dequeue();
             }
         }
 
@@ -70,7 +100,7 @@ namespace Greater_Tzaneen_Municipality_App
             }
         }
 
-        public List<string> GetRecentSearches()
+        public List<RecentSearchEntry> GetRecentSearches()
         {
             // Queue enumerates oldest-first; reverse so the newest search is shown first.
             return recentSearches.Reverse().ToList();

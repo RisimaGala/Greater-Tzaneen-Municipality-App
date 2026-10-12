@@ -196,9 +196,9 @@ namespace Greater_Tzaneen_Municipality_App
                 return;
             }
 
-            foreach (string term in recent)
+            foreach (RecentSearchEntry entry in recent)
             {
-                flowRecentSearches.Controls.Add(CreateSearchTag(term));
+                flowRecentSearches.Controls.Add(CreateSearchTag(entry));
             }
         }
 
@@ -430,11 +430,11 @@ namespace Greater_Tzaneen_Municipality_App
             return card;
         }
 
-        private Button CreateSearchTag(string term)
+        private Button CreateSearchTag(RecentSearchEntry entry)
         {
             var tag = new Button
             {
-                Text = term,
+                Text = entry.DisplayLabel,
                 AutoSize = true,
                 Padding = new Padding(6, 3, 6, 3),
                 Margin = new Padding(4),
@@ -447,7 +447,9 @@ namespace Greater_Tzaneen_Municipality_App
 
             tag.Click += (s, e) =>
             {
-                txtSearchKeyword.Text = term;
+                txtSearchKeyword.Text = entry.Keyword;
+                int categoryIndex = cmbCategoryFilter.Items.IndexOf(entry.Category);
+                cmbCategoryFilter.SelectedIndex = categoryIndex >= 0 ? categoryIndex : 0;
                 btnSearch_Click(s, e);
             };
 
