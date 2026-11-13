@@ -119,8 +119,15 @@ namespace Greater_Tzaneen_Municipality_App
                 btnSubmit.Enabled = true;
                 btnChooseFile.Enabled = true;
 
+                var request = ServiceRequestRepository.Submit(
+                    txtLocation.Text.Trim(),
+                    cmbCategory.SelectedItem.ToString(),
+                    txtDescription.Text.Trim(),
+                    selectedFilePath);
+
                 MessageBox.Show(
-                    "Thank you! Your report has been submitted successfully.\n\nOur team will review it shortly.",
+                    "Thank you! Your report has been submitted successfully.\n\nYour reference number is " + request.Reference +
+                    ".\nUse it under \"Service Request Status\" to track progress.",
                     "Report Submitted",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);

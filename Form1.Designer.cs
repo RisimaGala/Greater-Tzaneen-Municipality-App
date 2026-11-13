@@ -143,20 +143,21 @@ namespace Greater_Tzaneen_Municipality_App
             //
             // btnServiceStatus
             //
-            this.btnServiceStatus.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnServiceStatus.BackColor = System.Drawing.Color.FromArgb(20, 90, 50);
             this.btnServiceStatus.FlatAppearance.BorderSize = 0;
             this.btnServiceStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnServiceStatus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnServiceStatus.ForeColor = System.Drawing.Color.DimGray;
+            this.btnServiceStatus.ForeColor = System.Drawing.Color.White;
             this.btnServiceStatus.Location = new System.Drawing.Point(55, 430);
             this.btnServiceStatus.Name = "btnServiceStatus";
             this.btnServiceStatus.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnServiceStatus.Size = new System.Drawing.Size(650, 80);
             this.btnServiceStatus.TabIndex = 8;
-            this.btnServiceStatus.Text = "3. Service Request Status\r\n(Coming Soon)";
+            this.btnServiceStatus.Text = "3. Service Request Status\r\nTrack the progress of your service requests.";
             this.btnServiceStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnServiceStatus.UseVisualStyleBackColor = false;
-            this.btnServiceStatus.Enabled = false;
+            this.btnServiceStatus.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnServiceStatus.Click += new System.EventHandler(this.btnServiceStatus_Click);
             //
             // panelHills
             //

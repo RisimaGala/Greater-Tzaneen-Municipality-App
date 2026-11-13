@@ -64,6 +64,17 @@
     <Compile Include="LocalEventsForm.Designer.cs">
       <DependentUpon>LocalEventsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserStore.cs" />
+    <Compile Include="ServiceRequest.cs" />
+    <Compile Include="ServiceRequestRepository.cs" />
+    <Compile Include="SortedIndexes.cs" />
+    <Compile Include="MunicipalGraph.cs" />
+    <Compile Include="ServiceRequestStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EventItem.cs" />
     <Compile Include="EventCatalog.cs" />
     <Compile Include="BinaryHeapPriorityQueue.cs" />

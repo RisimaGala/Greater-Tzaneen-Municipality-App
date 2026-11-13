@@ -13,13 +13,13 @@ events and announcements, and (in a later part) track service requests.
 -   **Part 2** (this submission) adds **Local Events and
     Announcements**, including search, filtering and a personalised
     recommendation feature.
--   **Service Request Status** -- reserved for Task 3 of the PoE.
+-   **Task 3** adds **Service Request Status** with advanced data structures (see section 17).
 
 The Main Menu provides three options:
 
 -   **Report Issues** -- implemented in Part 1.
 -   **Local Events and Announcements** -- implemented in Part 2.
--   **Service Request Status** -- disabled and reserved for Task 3.
+-   **Service Request Status** -- implemented in Task 3.
 
 ## 2. Technologies Used
 
@@ -288,7 +288,6 @@ to the Main Menu easily.
 The application will be expanded in later parts of the Portfolio of
 Evidence. Possible future functionality includes:
 
--   Service Request Status (Task 3)
 -   Database/persistent storage
 -   Service request tracking
 -   Additional citizen engagement features
@@ -347,3 +346,36 @@ This source informed the application's user engagement approach,
 particularly the importance of active community participation,
 collaboration and consideration of local needs in municipal service
 delivery.
+
+## 17. Task 3 -- Service Request Status
+
+### How to compile and run
+
+1.  Open `Greater Tzaneen Municipality App.sln` in Visual Studio 2022 (or run `dotnet build` / `msbuild` from the project folder).
+2.  Build the solution (Ctrl+Shift+B) and press F5 to run. Target: .NET Framework 4.7.2, Windows only.
+3.  Create an account (or log in) on the first screen, then choose **3. Service Request Status** on the main menu.
+
+### How to use it
+
+-   **Report an issue first (optional):** submitting a report in *Report Issues* now creates a service request and shows its reference (for example `SR-1013`). Twelve sample requests (`SR-1001` to `SR-1012`) are pre-loaded. Requests live in memory only and reset when the app closes.
+-   **Requests tab:** type a reference (`SR-1005`, `sr1005` or `1005`) and press **Track** to jump to it. Filter by status, category and submitted-date range, and order by reference, newest, oldest or urgency. Select a row to see its progress bar and full history. **Advance status (demo)** moves a request to the next stage (Submitted, Assessed, In Progress, Resolved) so progress tracking can be demonstrated without staff.
+-   **Browse by Area tab:** a tree of Area > Category > Request.
+-   **Area Network (Graph) tab:** choose a start area, then run breadth-first, depth-first, minimum spanning tree, crew dispatch network or shortest distances. Results are listed and highlighted on the map (schematic map; distances are approximate road km).
+-   **Data Structure Insights tab:** inserts consecutive IDs into a BST, AVL tree and Red-Black tree and compares height and lookup cost, plus live statistics and traversals.
+
+### Data structures and their role
+
+| Structure | File | Role in the feature |
+|---|---|---|
+| Basic (general) tree | `SortedIndexes.cs` (`HierarchyNode`) | Municipality > Area > Category > Request hierarchy shown on *Browse by Area*. A request is placed by walking down from the root and creating missing branches. |
+| Binary tree / Binary Search Tree | `SortedIndexes.cs` (`BinarySearchTree`) | Each node has at most two children, left keys smaller, right keys larger. Supplies in-order, pre-order, post-order and level-order traversals. Kept as an unbalanced baseline (keyed by request ID) so the Insights tab can show why balancing matters: sequential IDs make it a linked list of height n. |
+| AVL tree | `SortedIndexes.cs` (`AvlTree`) | **Primary index by request ID.** Tracking `SR-1005` costs O(log n) comparisons (the status bar reports the real count). After each insert, balance factors are restored with single/double rotations, so height stays near log2(n) even though IDs arrive in increasing order. |
+| Red-Black tree | `SortedIndexes.cs` (`RedBlackTree`) | **Date index.** Gives requests in chronological order without sorting, and answers "submitted between X and Y" with a range query that skips subtrees outside the range. Fewer rotations per insert than AVL, which suits a steady stream of new requests. |
+| Binary heap (priority queue) | `BinaryHeapPriorityQueue.cs` | **Urgency ordering.** Open requests are pushed with priority (Critical, High, Medium, Low), then oldest first. Draining the heap gives the most urgent request in O(log n) per item. The same heap drives Dijkstra and Prim below. |
+| Graph | `MunicipalGraph.cs` | Weighted undirected adjacency list of nine areas and twelve roads, with the depot in Tzaneen. |
+| Graph traversal (BFS, DFS) | `MunicipalGraph.cs` | BFS lists areas by number of road hops from a start area (nearest first), DFS follows one route to its end. Each is annotated with the open requests in that area. |
+| Minimum spanning tree (Prim + heap) | `MunicipalGraph.cs` | Cheapest set of roads connecting every area (125 km of the network). Also used for the **crew dispatch network**: shortest-path distances between the depot and areas with open requests form a complete graph, and its MST gives a chained route plan (118 km vs 198 km for separate trips from the depot, with the sample data). |
+
+Example: the sample data holds `SR-1001` to `SR-1012`. Tracking `SR-1005` takes 4 AVL comparisons. The Urgency order puts the Critical electricity faults (`SR-1002`, `SR-1009`) first, ahead of High-priority water faults.
+
+Assumptions and limits: requests are held in memory (no database); the area of a report is found by matching the location text against known area names, otherwise the depot area (Tzaneen) is used; accounts created on the login screen are stored locally with salted PBKDF2 hashes.

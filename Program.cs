@@ -16,6 +16,15 @@ namespace Greater_Tzaneen_Municipality_App
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            using (var login = new LoginForm())
+            {
+                if (login.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+
             Application.Run(new Form1());
         }
     }
